@@ -6,10 +6,23 @@ using UnityEngine.SceneManagement;
 
 public class Score : MonoBehaviour {
 
-    public int tempo=5;
+    public float tempo = 0.001f;
     public bool chk = true;
     public int result=0;
 	public Text score;
+    private int ene;
+
+    void Start()
+    {
+        int tmp = 0;
+        GameObject[] enemies;
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            tmp++;
+        }
+        ene = tmp;
+    }
 
     void Update () {
 
@@ -25,29 +38,12 @@ public class Score : MonoBehaviour {
         x = i;
 
         //zwiekszanie predkosci im mniej przeciwnikow
-        switch (i)
+
+        if (ene != i)
         {
-            case 1:
-                tempo = 1;
-                break;
-            case 2:
-                tempo = 2;
-                break;
-            case 3:
-                tempo = 3;
-                break;
-            case 4:
-                tempo = 4;
-                break;
-            default:
-                tempo = 5;
-                break;
+            tempo += 0.2f;
+            ene = i;
         }
-
-        if (i<=6) chk = false;
-        //Debug.Log(tempo);
-
-
         
         PlayerPrefs.SetInt("Score", result); //<-wysylanie wyniku do sceny end
         if (x == 0) 
